@@ -1,5 +1,5 @@
 {
-    "name": "OOP_Lab_4_Container",
+    "name": "OOP_Container",
     "dockerFile": "Dockerfile",
     "context": "..",
     "appPort": [],

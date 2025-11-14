@@ -23,19 +23,16 @@ class MyArray
     using element_type = std::remove_pointer_t<T>;
 
 private:
-    size_t _capacity;
     size_t _size;
     std::shared_ptr<T[]> _body;
 
 public:
     MyArray(size_t n) :
-        _capacity(n),
         _size(n),
         _body(std::make_shared<T[]>(n))
     {}
 
     MyArray(const std::initializer_list<T>& figures) :
-        _capacity(figures.size()),
         _size(figures.size()),
         _body(std::make_shared<T[]>(figures.size()))
     {
@@ -47,9 +44,8 @@ public:
     }
 
     MyArray(const MyArray<T>& other) :
-        _capacity(other._capacity),
         _size(other._size),
-        _body(std::make_shared<T[]>(other._capacity))
+        _body(std::make_shared<T[]>(other._size))
     {
         for (size_t i{0}; i < _size; ++i) {
             _body[i] = other._body[i];
@@ -57,10 +53,8 @@ public:
     }
 
     MyArray(MyArray<T>&& other) noexcept {
-        _capacity = other._capacity;
         _size = other._size;
         _body = std::move(other._body);
-        other._capacity = 0;
         other._size = 0;
         other._body = nullptr;
     }
@@ -68,7 +62,6 @@ public:
     MyArray<T>& operator=(const MyArray<T>& other) {
         if (this != &other) {
             MyArray<T> other_copy(other);
-            std::swap(_capacity, other_copy._capacity);
             std::swap(_size, other_copy._size);
             std::swap(_body, other_copy._body);
         }
@@ -77,10 +70,8 @@ public:
 
     MyArray<T>& operator=(MyArray<T>&& other) noexcept {
         if (this != &other) {
-            _capacity = other._capacity;
             _size = other._size;
             _body = std::move(other._body);
-            other._capacity = 0;
             other._size = 0;
             other._body = nullptr;
         }
@@ -90,27 +81,18 @@ public:
     virtual ~MyArray() noexcept = default;
 
 public:
+    size_t size() const {
+        return _size;
+    }
+
     std::istream& read(size_t index, std::istream& is) {
+        if (index >= _size) {
+            throw std::out_of_range("Index is out of range");
+        }
         if constexpr (std::is_pointer_v<T>) {
             is >> *_body[index];
         } else {
             is >> _body[index];
-        }
-        return is;
-    }
-
-    std::istream& read_all(std::istream& is) {
-        size_t old_size = _size;
-        _size = 0;
-        for (size_t i{0}; i < old_size; ++i) {
-            try {
-                read(i, is);
-                ++_size;
-            } catch (const std::invalid_argument& e) {
-                std::cout << "Error: " << e.what() << std::endl;
-                is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                return is;
-            }
         }
         return is;
     }

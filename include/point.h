@@ -47,7 +47,7 @@ class Point final
     friend A scalar_product(const Point<A>& p1, const Point<A>& p2);
 
 public:
-    static constexpr T eps{1e-5};
+    static constexpr T eps{1e-6};
 
 private:
     T _x{};

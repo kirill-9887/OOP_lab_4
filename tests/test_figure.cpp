@@ -4,6 +4,7 @@
 #include "../include/my_array.h"
 #include "./test.h"
 #include <sstream>
+#include <iomanip>
 #include <cmath>
 
 const double pi = std::numbers::pi;
@@ -189,6 +190,7 @@ TEST(FigureTest, OperatorDouble_Square) {
         std::vector<Point<double>> tr3 = gen_regular_polygon_points<double>(v, 0, 0, pi/2, 1);
         MyArray<RegularPolygon<double, v>> arr(3);
         std::stringstream ss;
+        ss << std::setprecision(15);
         for (int i{0}; i < v; ++i) {
             ss << tr1[i].get_x() << " " << tr1[i].get_y() << " ";
         }
@@ -201,7 +203,9 @@ TEST(FigureTest, OperatorDouble_Square) {
             ss << tr3[i].get_x() << " " << tr3[i].get_y() << " ";
         }
         ss << std::endl;
-        EXPECT_NO_THROW(arr.read_all(ss));
+        for (size_t i{0}; i < arr.size(); ++i) {
+            EXPECT_NO_THROW(arr.read(i, ss));
+        }
         EXPECT_NO_THROW(arr.print(std::cout));
         EXPECT_NO_THROW(arr.print_centres(std::cout));
         EXPECT_NO_THROW(arr.print_squares(std::cout));
@@ -215,6 +219,7 @@ TEST(FigureTest, OperatorDouble_Square) {
         std::vector<Point<double>> hexagon3 = gen_regular_polygon_points<double>(v, 0, 0, pi/2, 1);
         MyArray<RegularPolygon<double, v>> arr(3);
         std::stringstream ss;
+        ss << std::setprecision(15);
         for (int i{0}; i < v; ++i) {
             ss << hexagon1[i].get_x() << " " << hexagon1[i].get_y() << " ";
         }
@@ -227,7 +232,9 @@ TEST(FigureTest, OperatorDouble_Square) {
             ss << hexagon3[i].get_x() << " " << hexagon3[i].get_y() << " ";
         }
         ss << std::endl;
-        EXPECT_NO_THROW(arr.read_all(ss));
+        for (size_t i{0}; i < arr.size(); ++i) {
+            EXPECT_NO_THROW(arr.read(i, ss));
+        }
         EXPECT_NO_THROW(arr.print(std::cout));
         EXPECT_NO_THROW(arr.print_centres(std::cout));
         EXPECT_NO_THROW(arr.print_squares(std::cout));
@@ -241,6 +248,7 @@ TEST(FigureTest, OperatorDouble_Square) {
         std::vector<Point<double>> octagon3 = gen_regular_polygon_points<double>(v, 0, 0, pi/2, 1);
         MyArray<RegularPolygon<double, v>> arr(3);
         std::stringstream ss;
+        ss << std::setprecision(15);
         for (int i{0}; i < v; ++i) {
             ss << octagon1[i].get_x() << " " << octagon1[i].get_y() << " ";
         }
@@ -253,7 +261,9 @@ TEST(FigureTest, OperatorDouble_Square) {
             ss << octagon3[i].get_x() << " " << octagon3[i].get_y() << " ";
         }
         ss << std::endl;
-        EXPECT_NO_THROW(arr.read_all(ss));
+        for (size_t i{0}; i < arr.size(); ++i) {
+            EXPECT_NO_THROW(arr.read(i, ss));
+        }
         EXPECT_NO_THROW(arr.print(std::cout));
         EXPECT_NO_THROW(arr.print_centres(std::cout));
         EXPECT_NO_THROW(arr.print_squares(std::cout));
